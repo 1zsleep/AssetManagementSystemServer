@@ -1,6 +1,6 @@
 package com.example.assetmanagementsystemserver.pojo;
 
-import com.example.assetmanagementsystemserver.eume.RoleEnum;
+import com.example.assetmanagementsystemserver.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

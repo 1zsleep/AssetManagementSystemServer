@@ -5,9 +5,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * JWT 工具类
@@ -16,10 +19,10 @@ import java.util.Date;
 public class JwtUtil {
 
     @Value("${jwt.secret}")
-    private String secretKey;
+    private String secretKey; // JWT密钥
 
     @Value("${jwt.expiration}")
-    private Long expiration;
+    private Long expiration;// JWT过期时间
 
     /**
      * 获取用于签名的算法
@@ -71,9 +74,12 @@ public class JwtUtil {
      * @param username 用户名
      * @return JWT
      */
-    public String generateToken(String username) {
+    public String generateToken(String username, Collection<? extends GrantedAuthority> authorities) {
         return JWT.create()
                 .withSubject(username)
+                .withClaim("roles", authorities.stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList())) // 添加角色声明
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + expiration))
                 .sign(getAlgorithm());

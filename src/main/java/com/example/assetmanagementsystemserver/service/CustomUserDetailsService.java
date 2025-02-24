@@ -2,7 +2,7 @@ package com.example.assetmanagementsystemserver.service;
 
 import com.example.assetmanagementsystemserver.pojo.User;
 import com.example.assetmanagementsystemserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,11 +14,10 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
-
+    private final UserRepository userRepository;
     /**
      * 根据用户名加载用户
      * @param username 用户名
@@ -27,9 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // 查找用户
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-
+        // 构建用户权限列表
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(user.getRole().getDescription());
         // 使用完全限定名解决命名冲突
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getUserPassword(), authorities);
