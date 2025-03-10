@@ -1,4 +1,4 @@
-package com.example.assetmanagementsystemserver.util;
+package com.example.assetManagementSystemServer.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -84,6 +84,7 @@ public class JwtUtil {
                 .withExpiresAt(new Date(System.currentTimeMillis() + expiration))
                 .sign(getAlgorithm());
     }
+
 
     /**
      * 验证 JWT

@@ -1,8 +1,8 @@
-package com.example.assetmanagementsystemserver.config;
+package com.example.assetManagementSystemServer.config;
 
-import com.example.assetmanagementsystemserver.dto.BaseResponse;
-import com.example.assetmanagementsystemserver.enums.ResponseStatusEnum;
-import com.example.assetmanagementsystemserver.exception.BusinessException;
+import com.example.assetManagementSystemServer.dto.BaseResponse;
+import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
+import com.example.assetManagementSystemServer.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;

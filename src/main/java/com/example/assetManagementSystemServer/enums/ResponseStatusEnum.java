@@ -1,4 +1,4 @@
-package com.example.assetmanagementsystemserver.enums;
+package com.example.assetManagementSystemServer.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

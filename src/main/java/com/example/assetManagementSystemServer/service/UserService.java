@@ -1,12 +1,16 @@
-package com.example.assetmanagementsystemserver.service;
+package com.example.assetManagementSystemServer.service;
 
-import com.example.assetmanagementsystemserver.enums.ResponseStatusEnum;
-import com.example.assetmanagementsystemserver.exception.BusinessException;
-import com.example.assetmanagementsystemserver.pojo.User;
-import com.example.assetmanagementsystemserver.repository.UserRepository;
+import com.example.assetManagementSystemServer.dto.UserDTO;
+import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
+import com.example.assetManagementSystemServer.exception.BusinessException;
+import com.example.assetManagementSystemServer.pojo.User;
+import com.example.assetManagementSystemServer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -54,5 +58,9 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.deleteById(id);
+    }
+
+    public Page<UserDTO> getUsers(Pageable pageable) {
+        return userRepository.findUsers(pageable);
     }
 }

@@ -1,6 +1,6 @@
-package com.example.assetmanagementsystemserver.exception;
+package com.example.assetManagementSystemServer.exception;
 
-import com.example.assetmanagementsystemserver.enums.ResponseStatusEnum;
+import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import lombok.Getter;
 
 /**

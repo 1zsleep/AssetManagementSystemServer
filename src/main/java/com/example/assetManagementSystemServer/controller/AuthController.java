@@ -1,23 +1,21 @@
-package com.example.assetmanagementsystemserver.controller;
+package com.example.assetManagementSystemServer.controller;
 
-import com.example.assetmanagementsystemserver.dto.BaseResponse;
-import com.example.assetmanagementsystemserver.enums.ResponseStatusEnum;
-import com.example.assetmanagementsystemserver.exception.BusinessException;
-import com.example.assetmanagementsystemserver.pojo.User;
-import com.example.assetmanagementsystemserver.repository.UserRepository;
-import com.example.assetmanagementsystemserver.service.CustomUserDetailsService;
-import com.example.assetmanagementsystemserver.service.UserService;
-import com.example.assetmanagementsystemserver.util.JwtUtil;
+import com.example.assetManagementSystemServer.dto.BaseResponse;
+import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
+import com.example.assetManagementSystemServer.exception.BusinessException;
+import com.example.assetManagementSystemServer.pojo.User;
+import com.example.assetManagementSystemServer.repository.UserRepository;
+import com.example.assetManagementSystemServer.service.CustomUserDetailsService;
+import com.example.assetManagementSystemServer.service.UserService;
+import com.example.assetManagementSystemServer.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;

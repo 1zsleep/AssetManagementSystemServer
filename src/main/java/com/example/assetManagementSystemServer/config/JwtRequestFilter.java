@@ -1,7 +1,7 @@
-package com.example.assetmanagementsystemserver.config;
+package com.example.assetManagementSystemServer.config;
 
-import com.example.assetmanagementsystemserver.service.CustomUserDetailsService;
-import com.example.assetmanagementsystemserver.util.JwtUtil;
+import com.example.assetManagementSystemServer.service.CustomUserDetailsService;
+import com.example.assetManagementSystemServer.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

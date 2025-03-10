@@ -1,4 +1,4 @@
-package com.example.assetmanagementsystemserver;
+package com.example.assetManagementSystemServer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
