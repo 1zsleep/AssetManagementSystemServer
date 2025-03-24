@@ -3,12 +3,9 @@ package com.example.assetManagementSystemServer.controller;
 import com.example.assetManagementSystemServer.dto.BaseResponse;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
-import com.example.assetManagementSystemServer.pojo.User;
-import com.example.assetManagementSystemServer.repository.UserRepository;
-import com.example.assetManagementSystemServer.service.CustomUserDetailsService;
+import com.example.assetManagementSystemServer.entity.User;
 import com.example.assetManagementSystemServer.service.UserService;
 import com.example.assetManagementSystemServer.util.JwtUtil;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,28 +26,9 @@ import java.util.Collection;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
-    private final CustomUserDetailsService customUserDetailsService;
-
-    private final JwtUtil jwtUtil;
-
     private final UserService userService;
 
-    private final UserRepository userRepository;
-
-    /**
-     * 用户注册
-     * @param user 用户对象
-     * @return 注册成功消息
-     */
-    @PostMapping("/register")
-    public ResponseEntity<BaseResponse<User>> register(@Valid @RequestBody User user) {
-        if (userRepository.findByUserName(user.getUserName()).isPresent()) {
-            throw new BusinessException(ResponseStatusEnum.USER_EXISTS);
-        }
-        User registeredUser = userService.insertUser(user);
-        return ResponseEntity.ok(BaseResponse.success(registeredUser));
-    }
+    private final JwtUtil jwtUtil;
 
     /**
      * 用户登录
@@ -70,9 +48,10 @@ public class AuthController {
 
             // 获取用户权限信息
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
+            User User1 = userService.getUserByUserName(user.getUserName());
             // 生成包含角色的 Token
-            final String token = jwtUtil.generateToken(user.getUserName(), authorities);
+
+            final String token = jwtUtil.generateToken(user.getUserName(),User1.isStatus(), authorities);
             return ResponseEntity.ok(BaseResponse.success(token));
         } catch (AuthenticationException e) {
             throw new BusinessException(ResponseStatusEnum.INVALID_CREDENTIALS);

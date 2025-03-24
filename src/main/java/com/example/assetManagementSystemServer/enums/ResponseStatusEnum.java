@@ -24,7 +24,14 @@ public enum ResponseStatusEnum {
 
     // 业务通用错误 (4002xxx)
     DATA_VALIDATION_FAILED(4002001, "数据校验失败", HttpStatus.BAD_REQUEST),
-    ILLEGAL_OPERATION(4002002, "非法操作", HttpStatus.FORBIDDEN);
+    ILLEGAL_OPERATION(4002002, "非法操作", HttpStatus.FORBIDDEN),
+    USER_NOT_FOUND(4002003, "用户不存在", HttpStatus.NOT_FOUND),
+    INVALID_PARAM(4002004, "无效请求参数", HttpStatus.BAD_REQUEST),
+
+    GROUP_EXISTS(4003001, "用户组已存在", HttpStatus.BAD_REQUEST),
+    GROUP_NOT_FOUND(4003002, "用户组不存在", HttpStatus.NOT_FOUND),
+    USER_NOT_IN_GROUP(4003003, "用户不在该组中", HttpStatus.BAD_REQUEST)
+    ;;
 
     private final int code;      // 业务状态码
     private final String message; // 中文描述

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,14 +42,14 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 //设置URL的访问权限，/auth/**路径下的请求允许所有用户访问，其他请求需要认证。
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**","/test/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 //设置会话管理策略为无状态（STATELESS），意味着不依赖于服务器端的session。
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         //在用户名和密码认证过滤器之前添加自定义的JWT请求过滤器。
         http.addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        http.cors(Customizer.withDefaults());
         return http.build();
     }
 
