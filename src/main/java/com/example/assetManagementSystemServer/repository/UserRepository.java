@@ -15,7 +15,7 @@ import java.util.Optional;
  *
  */
 @Repository
-public interface UserRepository extends BaseRepository<User, Integer> {
+public interface UserRepository extends BaseRepository<User, Long> {
     /**
      * 根据用户名查找用户
      * @param username 用户名

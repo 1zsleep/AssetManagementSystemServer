@@ -23,12 +23,12 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class UserService extends BaseService<User, Integer>{
+public class UserService extends BaseService<User, Long>{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
     public User getUserByUserName(String userName) {
@@ -58,7 +58,7 @@ public class UserService extends BaseService<User, Integer>{
     }
 
     @Transactional
-    public void updateUser(Integer userId, User updatedUser) {
+    public void updateUser(Long userId, User updatedUser) {
         userRepository.findById(userId)
                 .map(user -> {
                     // 更新需要修改的字段
@@ -79,7 +79,7 @@ public class UserService extends BaseService<User, Integer>{
                 .orElseThrow(() -> new BusinessException(ResponseStatusEnum.USER_NOT_FOUND));
     }
     @Transactional
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
@@ -102,7 +102,7 @@ public class UserService extends BaseService<User, Integer>{
 
 
     @Override
-    protected BaseRepository<User, Integer> getRepository() {
+    protected BaseRepository<User, Long> getRepository() {
         return userRepository;
     }
 }

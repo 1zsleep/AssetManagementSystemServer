@@ -74,9 +74,10 @@ public class JwtUtil {
      * @param username 用户名
      * @return JWT
      */
-    public String generateToken(String username,boolean status, Collection<? extends GrantedAuthority> authorities) {
+    public String generateToken(String username,Long id,boolean status, Collection<? extends GrantedAuthority> authorities) {
         return JWT.create()
                 .withSubject(username)
+                .withClaim("id", id)
                 .withClaim("status", status)
                 .withClaim("roles", authorities.stream()
                         .map(GrantedAuthority::getAuthority)

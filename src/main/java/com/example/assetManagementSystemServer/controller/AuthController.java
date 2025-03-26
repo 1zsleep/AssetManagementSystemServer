@@ -51,7 +51,7 @@ public class AuthController {
             User User1 = userService.getUserByUserName(user.getUserName());
             // 生成包含角色的 Token
 
-            final String token = jwtUtil.generateToken(user.getUserName(),User1.isStatus(), authorities);
+            final String token = jwtUtil.generateToken(user.getUserName(),User1.getId(),User1.isStatus(), authorities);
             return ResponseEntity.ok(BaseResponse.success(token));
         } catch (AuthenticationException e) {
             throw new BusinessException(ResponseStatusEnum.INVALID_CREDENTIALS);

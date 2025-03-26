@@ -19,7 +19,7 @@ public class User {
     @Id
     //GenerationType.IDENTITY 表示主键由数据库自动生成（通常是自增列）
     @GeneratedValue(strategy = GenerationType.IDENTITY)//
-    private int id;
+    private Long id;
 
     //nullable = false 表示该列不允许为 null。
     //unique = true 表示该列的值必须唯一。

@@ -57,7 +57,7 @@ public abstract class BaseService<T, ID> {
     /**
      * 构建分页请求对象
      */
-    private Pageable buildPageRequest(ListParam param) {
+    protected Pageable buildPageRequest(ListParam param) {
         // 计算页码（示例：offset=15, limit=10 → page=1）
         int pageNumber = (param.getOffset() + param.getLimit() - 1) / param.getLimit();
         return PageRequest.of(pageNumber, param.getLimit());
@@ -66,7 +66,7 @@ public abstract class BaseService<T, ID> {
     /**
      * 构建返回结果
      */
-    private Items<T> buildResult(Page<T> pageResult, boolean needTotal) {
+    protected Items<T> buildResult(Page<T> pageResult, boolean needTotal) {
         return new Items<>(
                 pageResult.getContent(),
                 needTotal ? pageResult.getTotalElements() : null

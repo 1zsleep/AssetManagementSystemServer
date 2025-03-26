@@ -26,6 +26,7 @@ public class UserController {
 
     @GetMapping("/list")
     public Items<User> getUsers(ListParam listParam) {
+
         return userService.list(listParam);
     }
 
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseResponse<String>> deleteUser(@PathVariable int id) {
+    public ResponseEntity<BaseResponse<String>> deleteUser(@PathVariable long id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.ok(BaseResponse.success("删除成功"));

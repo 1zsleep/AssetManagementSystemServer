@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-// ResponseStatusEnum.java
 @Getter
 @AllArgsConstructor
 public enum ResponseStatusEnum {
@@ -27,21 +26,18 @@ public enum ResponseStatusEnum {
     ILLEGAL_OPERATION(4002002, "非法操作", HttpStatus.FORBIDDEN),
     USER_NOT_FOUND(4002003, "用户不存在", HttpStatus.NOT_FOUND),
     INVALID_PARAM(4002004, "无效请求参数", HttpStatus.BAD_REQUEST),
+    NO_UPDATE_PERMISSION(4002005, "没有修改权限", HttpStatus.FORBIDDEN),
 
+    // 用户组相关 (4003xxx)
     GROUP_EXISTS(4003001, "用户组已存在", HttpStatus.BAD_REQUEST),
     GROUP_NOT_FOUND(4003002, "用户组不存在", HttpStatus.NOT_FOUND),
-    USER_NOT_IN_GROUP(4003003, "用户不在该组中", HttpStatus.BAD_REQUEST)
-    ;;
+    USER_ALREADY_IN_GROUP(4003003, "用户已在组中", HttpStatus.BAD_REQUEST),
+    USER_NOT_IN_GROUP(4003004, "用户不在该组中", HttpStatus.BAD_REQUEST);
 
-    private final int code;      // 业务状态码
+    private final int code;       // 业务状态码
     private final String message; // 中文描述
     private final HttpStatus httpStatus;  // HTTP状态码
 
-    /**
-     * 通过业务状态码获取枚举
-     * @param code 业务状态码
-     * @return 对应的枚举值
-     */
     public static ResponseStatusEnum getByCode(int code) {
         for (ResponseStatusEnum status : values()) {
             if (status.getCode() == code) {
