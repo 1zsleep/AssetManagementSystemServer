@@ -1,7 +1,7 @@
 package com.example.assetManagementSystemServer.repository;
 
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
-import com.example.assetManagementSystemServer.entity.UserGroup;
+import com.example.assetManagementSystemServer.entity.user.UserGroup;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

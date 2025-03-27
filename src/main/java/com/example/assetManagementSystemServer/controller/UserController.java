@@ -6,7 +6,7 @@ import com.example.assetManagementSystemServer.base.query.ListParam;
 import com.example.assetManagementSystemServer.dto.BaseResponse;
 
 import com.example.assetManagementSystemServer.dto.BatchUpdateStatusDTO;
-import com.example.assetManagementSystemServer.entity.User;
+import com.example.assetManagementSystemServer.entity.user.User;
 import com.example.assetManagementSystemServer.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

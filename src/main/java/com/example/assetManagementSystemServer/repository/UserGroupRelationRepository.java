@@ -1,8 +1,8 @@
 package com.example.assetManagementSystemServer.repository;
 
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
-import com.example.assetManagementSystemServer.entity.UserGroupRelation;
-import com.example.assetManagementSystemServer.entity.UserGroupRelationId;
+import com.example.assetManagementSystemServer.entity.user.UserGroupRelation;
+import com.example.assetManagementSystemServer.entity.user.UserGroupRelationId;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;

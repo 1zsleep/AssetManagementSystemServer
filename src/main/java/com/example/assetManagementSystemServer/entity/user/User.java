@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.entity;
+package com.example.assetManagementSystemServer.entity.user;
 
 import com.example.assetManagementSystemServer.enums.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;

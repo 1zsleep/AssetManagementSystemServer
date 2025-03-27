@@ -4,7 +4,7 @@ import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.base.service.BaseService;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
-import com.example.assetManagementSystemServer.entity.User;
+import com.example.assetManagementSystemServer.entity.user.User;
 import com.example.assetManagementSystemServer.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.entity;
+package com.example.assetManagementSystemServer.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.entity;
+package com.example.assetManagementSystemServer.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
