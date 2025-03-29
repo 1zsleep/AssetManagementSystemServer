@@ -1,11 +1,11 @@
-package com.example.assetManagementSystemServer.controller;
+package com.example.assetManagementSystemServer.controller.user;
 
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
 import com.example.assetManagementSystemServer.dto.BaseResponse;
 import com.example.assetManagementSystemServer.entity.user.UserGroupRelation;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
-import com.example.assetManagementSystemServer.service.UserGroupRelationService;
+import com.example.assetManagementSystemServer.service.user.UserGroupRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

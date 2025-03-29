@@ -1,19 +1,24 @@
-package com.example.assetManagementSystemServer.service;
+package com.example.assetManagementSystemServer.service.user;
 
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
 import com.example.assetManagementSystemServer.base.service.BaseService;
 import com.example.assetManagementSystemServer.entity.user.User;
 import com.example.assetManagementSystemServer.entity.user.UserGroup;
+import com.example.assetManagementSystemServer.entity.user.UserGroupRelationId;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
-import com.example.assetManagementSystemServer.repository.UserGroupRelationRepository;
-import com.example.assetManagementSystemServer.repository.UserGroupRepository;
-import com.example.assetManagementSystemServer.repository.UserRepository;
+import com.example.assetManagementSystemServer.repository.user.UserGroupRelationRepository;
+import com.example.assetManagementSystemServer.repository.user.UserGroupRepository;
+import com.example.assetManagementSystemServer.repository.user.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserGroupService extends BaseService<UserGroup, Long> {
@@ -95,5 +100,18 @@ public class UserGroupService extends BaseService<UserGroup, Long> {
         // 5. 执行更新
         group.setGroupName(newGroupName);
         return groupRepository.save(group);
+    }
+
+    /**
+     * 获取用户所属群组ID列表
+     * @param userId 用户ID
+     * @return 群组ID列表（缓存优化）
+     */
+    @Cacheable(value = "userGroupsCache", key = "#userId") // 修正缓存名称
+    public List<Long> getUserGroups(Long userId) {
+        return relationRepository.findGroupIdsByUserId(userId)
+                .stream()
+                .map(UserGroupRelationId::getGroupId) // 显式类型转换
+                .collect(Collectors.toList());
     }
 }

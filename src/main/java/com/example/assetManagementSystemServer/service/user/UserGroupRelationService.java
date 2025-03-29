@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.service;
+package com.example.assetManagementSystemServer.service.user;
 
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
@@ -9,9 +9,9 @@ import com.example.assetManagementSystemServer.entity.user.UserGroupRelation;
 import com.example.assetManagementSystemServer.entity.user.UserGroupRelationId;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
-import com.example.assetManagementSystemServer.repository.UserGroupRelationRepository;
-import com.example.assetManagementSystemServer.repository.UserGroupRepository;
-import com.example.assetManagementSystemServer.repository.UserRepository;
+import com.example.assetManagementSystemServer.repository.user.UserGroupRelationRepository;
+import com.example.assetManagementSystemServer.repository.user.UserGroupRepository;
+import com.example.assetManagementSystemServer.repository.user.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;

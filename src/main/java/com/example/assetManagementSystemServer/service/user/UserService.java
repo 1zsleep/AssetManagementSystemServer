@@ -1,11 +1,11 @@
-package com.example.assetManagementSystemServer.service;
+package com.example.assetManagementSystemServer.service.user;
 
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.base.service.BaseService;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
 import com.example.assetManagementSystemServer.entity.user.User;
-import com.example.assetManagementSystemServer.repository.UserRepository;
+import com.example.assetManagementSystemServer.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +29,8 @@ public class UserService extends BaseService<User, Long>{
     private final PasswordEncoder passwordEncoder;
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ResponseStatusEnum.USER_NOT_FOUND));
     }
     public User getUserByUserName(String userName) {
         return userRepository.findByUserName(userName).orElse(null);

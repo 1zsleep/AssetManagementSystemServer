@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.controller;
+package com.example.assetManagementSystemServer.controller.user;
 
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
@@ -7,7 +7,7 @@ import com.example.assetManagementSystemServer.dto.BaseResponse;
 
 import com.example.assetManagementSystemServer.dto.BatchUpdateStatusDTO;
 import com.example.assetManagementSystemServer.entity.user.User;
-import com.example.assetManagementSystemServer.service.UserService;
+import com.example.assetManagementSystemServer.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

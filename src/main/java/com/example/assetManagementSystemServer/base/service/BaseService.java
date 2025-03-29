@@ -3,10 +3,12 @@ package com.example.assetManagementSystemServer.base.service;
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.base.query.ListParam;
+import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
+import org.springframework.data.jpa.domain.Specification;
+
 
 /**
  * 基础服务类 - 提供通用分页查询能力
@@ -34,6 +36,29 @@ public abstract class BaseService<T, ID> {
         );
 
         // 构建返回结果
+        return buildResult(pageResult, param.isCount());
+    }
+    /**
+     * 分页查询（增强版）- 支持附加动态条件
+     * @param param    分页参数
+     * @param extraSpec 额外查询条件（可与其他条件组合）
+     */
+    public Items<T> list(ListParam param, @Nullable Specification<T> extraSpec) {
+        // 参数校验
+        validateParam(param);
+
+        // 构建分页请求
+        Pageable pageable = buildPageRequest(param);
+
+        // 组合查询条件
+        Specification<T> baseSpec = getRepository().parseFilter(param.getFilter());
+        Specification<T> finalSpec = extraSpec != null ?
+                baseSpec.and(extraSpec) : baseSpec;
+
+        // 执行查询
+        Page<T> pageResult = getRepository().findAll(finalSpec, pageable);
+
+        // 返回标准化结果
         return buildResult(pageResult, param.isCount());
     }
 

@@ -1,7 +1,7 @@
 package com.example.assetManagementSystemServer.service;
 
 import com.example.assetManagementSystemServer.entity.user.User;
-import com.example.assetManagementSystemServer.repository.UserRepository;
+import com.example.assetManagementSystemServer.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

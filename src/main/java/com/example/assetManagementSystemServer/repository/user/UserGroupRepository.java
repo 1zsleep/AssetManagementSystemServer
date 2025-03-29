@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.repository;
+package com.example.assetManagementSystemServer.repository.user;
 
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.entity.user.UserGroup;

@@ -32,7 +32,27 @@ public enum ResponseStatusEnum {
     GROUP_EXISTS(4003001, "用户组已存在", HttpStatus.BAD_REQUEST),
     GROUP_NOT_FOUND(4003002, "用户组不存在", HttpStatus.NOT_FOUND),
     USER_ALREADY_IN_GROUP(4003003, "用户已在组中", HttpStatus.BAD_REQUEST),
-    USER_NOT_IN_GROUP(4003004, "用户不在该组中", HttpStatus.BAD_REQUEST);
+    USER_NOT_IN_GROUP(4003004, "用户不在该组中", HttpStatus.BAD_REQUEST),
+
+    // 资产相关 (4006xxx)
+    ASSET_NOT_FOUND(4006001, "资产不存在", HttpStatus.NOT_FOUND),
+    ASSET_NAME_EXISTS(4006002, "资产名称已存在", HttpStatus.BAD_REQUEST),
+    ASSET_STATUS_ILLEGAL(4006003, "资产状态流转非法", HttpStatus.BAD_REQUEST),
+    ASSET_OPERATION_FORBIDDEN(4006004, "无权操作该资产", HttpStatus.FORBIDDEN),
+
+    // 文件相关 (4007xxx)
+    FILE_UPLOAD_FAILED(4007001, "文件上传失败", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_NOT_FOUND(4007002, "文件不存在", HttpStatus.NOT_FOUND),
+    FILE_DELETE_FAILED(4007003, "文件删除失败", HttpStatus.INTERNAL_SERVER_ERROR),
+    PREVIEW_NOT_SUPPORTED(4007004, "该文件类型不支持预览", HttpStatus.BAD_REQUEST),
+
+    // 并发控制 (4008xxx)
+    CONCURRENT_MODIFICATION(4008001, "数据已被修改，请刷新后重试", HttpStatus.CONFLICT),
+
+    //腾讯云cos(4009xxx)
+    INVALID_COS_URL(4009001, "无效的腾讯云cos链接", HttpStatus.BAD_REQUEST),
+
+    ;
 
     private final int code;       // 业务状态码
     private final String message; // 中文描述

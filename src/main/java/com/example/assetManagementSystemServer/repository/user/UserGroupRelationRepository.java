@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.repository;
+package com.example.assetManagementSystemServer.repository.user;
 
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.entity.user.UserGroupRelation;
@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserGroupRelationRepository extends BaseRepository<UserGroupRelation, UserGroupRelationId> {
@@ -84,4 +85,7 @@ public interface UserGroupRelationRepository extends BaseRepository<UserGroupRel
                 )
         ) > 0;
     }
+
+    @Query("SELECT r.id FROM UserGroupRelation r WHERE r.user.id = ?1")
+    List<UserGroupRelationId> findGroupIdsByUserId(Long userId);
 }

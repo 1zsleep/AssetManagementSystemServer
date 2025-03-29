@@ -4,7 +4,7 @@ import com.example.assetManagementSystemServer.dto.BaseResponse;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
 import com.example.assetManagementSystemServer.entity.user.User;
-import com.example.assetManagementSystemServer.service.UserService;
+import com.example.assetManagementSystemServer.service.user.UserService;
 import com.example.assetManagementSystemServer.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

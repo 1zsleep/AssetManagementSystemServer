@@ -40,4 +40,7 @@ public class User {
 
     @Column(nullable = false)
     private boolean status;
+
+    @Column(name = "avatar_cos_key")
+    private String avatarCosKey; // 存储COS文件路径（如 "avatars/user123.jpg"）
 }
