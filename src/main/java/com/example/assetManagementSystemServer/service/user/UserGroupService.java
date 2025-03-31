@@ -114,4 +114,8 @@ public class UserGroupService extends BaseService<UserGroup, Long> {
                 .map(UserGroupRelationId::getGroupId) // 显式类型转换
                 .collect(Collectors.toList());
     }
+
+    public Boolean isUserInGroup(Long userId, Long groupId) {
+        return relationRepository.existsByGroupIdAndUserId(groupId, userId);
+    }
 }

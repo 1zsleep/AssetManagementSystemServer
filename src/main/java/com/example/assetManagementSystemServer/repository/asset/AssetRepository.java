@@ -1,36 +1,30 @@
-// AssetRepository.java
 package com.example.assetManagementSystemServer.repository.asset;
 
-import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.entity.asset.Asset;
-import org.springframework.data.jpa.repository.Modifying;
+import com.example.assetManagementSystemServer.base.repository.BaseRepository;
+import com.example.assetManagementSystemServer.enums.AssetType;
+import com.example.assetManagementSystemServer.enums.Visibility;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
+@Repository
 public interface AssetRepository extends BaseRepository<Asset, Long> {
 
     /**
-     * 资产名称唯一性校验
-     * @param assetName 需要检查的资产名称
-     * @return 是否存在同名资产
+     * 根据可见性类型查询资产（带悲观锁）
      */
-    default boolean existsByAssetName(String assetName) {
-        return count((root, query, cb) ->
-                cb.equal(root.get("assetName"), assetName)
-        ) > 0;
-    }
-
-    /**
-     * 原子更新资源计数器
-     * @param assetId 目标资产ID
-     * @param delta 增减数量（正数增加，负数减少）
-     */
-    @Modifying
-    @Query("UPDATE Asset SET relatedResourceCount = relatedResourceCount + :delta WHERE id = :assetId")
-    void updateResourceCount(@Param("assetId") Long assetId, @Param("delta") int delta);
-
-
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT a FROM Asset a WHERE " +
+            "a.visibility = :visibility AND " +
+            "(:visibility = 'PRIVATE' AND a.ownerUserId = :ownerId) OR " +
+            "(:visibility = 'GROUP' AND a.ownerGroupId = :ownerId) OR " +
+            "(:visibility = 'PUBLIC' AND a.ownerUserId IS NULL AND a.ownerGroupId IS NULL) AND " +
+            "a.assetType = :assetType")
+    Asset findWithLockByVisibilityAndOwner(
+            @Param("visibility") Visibility visibility,
+            @Param("ownerId") Long ownerId,
+            @Param("assetType") AssetType assetType);
 }

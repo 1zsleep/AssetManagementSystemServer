@@ -45,13 +45,36 @@ public enum ResponseStatusEnum {
     FILE_NOT_FOUND(4007002, "文件不存在", HttpStatus.NOT_FOUND),
     FILE_DELETE_FAILED(4007003, "文件删除失败", HttpStatus.INTERNAL_SERVER_ERROR),
     PREVIEW_NOT_SUPPORTED(4007004, "该文件类型不支持预览", HttpStatus.BAD_REQUEST),
+    THUMBNAIL_GENERATE_FAILED(4007005, "缩略图生成失败", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_DOWNLOAD_FAILED(4007006, "文件下载链接生成失败", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_TYPE_NOT_SUPPORTED(4007007, "不支持的文件类型", HttpStatus.BAD_REQUEST),
+    PARAM_ERROR(4007008, "参数错误", HttpStatus.BAD_REQUEST),
+    INVALID_FILE(4007009, "无效的文件", HttpStatus.BAD_REQUEST),
+    FILE_UPLOWD_FAILED(4007010, "文件流处理失败", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // 并发控制 (4008xxx)
     CONCURRENT_MODIFICATION(4008001, "数据已被修改，请刷新后重试", HttpStatus.CONFLICT),
 
     //腾讯云cos(4009xxx)
     INVALID_COS_URL(4009001, "无效的腾讯云cos链接", HttpStatus.BAD_REQUEST),
+    ACCESS_DENIED(4009002, "访问被拒绝", HttpStatus.FORBIDDEN),
+    FILE_TYPE_MISMATCH(4009003, "文件类型不匹配", HttpStatus.BAD_REQUEST),
+    INVALID_BUCKET_TYPE(4009004, "无效的Bucket类型", HttpStatus.BAD_REQUEST),
+    CONFIG_ERROR(4009005, "配置错误", HttpStatus.BAD_REQUEST),
 
+    //物品（4010xxx）
+    ITEM_NOT_FOUND(4010001, "物品不存在", HttpStatus.NOT_FOUND),
+    ITEM_NAME_EXISTS(4010002, "物品名称已存在", HttpStatus.BAD_REQUEST),
+    ITEM_STATUS_ILLEGAL(4010003, "物品状态流转非法", HttpStatus.BAD_REQUEST),
+    ITEM_OPERATION_FORBIDDEN(4010004, "无权操作该物品", HttpStatus.FORBIDDEN),
+    ITEM_NOT_IN_GROUP(4010005, "物品不在该组中", HttpStatus.BAD_REQUEST),
+    ITEM_ALREADY_IN_GROUP(4010006, "物品已在组中", HttpStatus.BAD_REQUEST),
+    ITEM_GROUP_NOT_FOUND(4010007, "物品组不存在", HttpStatus.NOT_FOUND),
+    ITEM_GROUP_EXISTS(4010008, "物品组已存在", HttpStatus.BAD_REQUEST),
+    ITEM_GROUP_OPERATION_FORBIDDEN(4010009, "无权操作该物品组", HttpStatus.FORBIDDEN),
+    ITEM_GROUP_NOT_IN_GROUP(4010010, "物品组不在该组中", HttpStatus.BAD_REQUEST),
+    INSUFFICIENT_INVENTORY(4010011,"库存不足",HttpStatus.BAD_REQUEST),
+    EXCEED_THE_ANNUAL_LIMIT_FOR_RECEIPT(4010012,"超出年度领用上限",HttpStatus.BAD_REQUEST),
     ;
 
     private final int code;       // 业务状态码

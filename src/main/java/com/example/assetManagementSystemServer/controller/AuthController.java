@@ -1,6 +1,6 @@
 package com.example.assetManagementSystemServer.controller;
 
-import com.example.assetManagementSystemServer.dto.BaseResponse;
+import com.example.assetManagementSystemServer.base.BaseResponse;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
 import com.example.assetManagementSystemServer.entity.user.User;

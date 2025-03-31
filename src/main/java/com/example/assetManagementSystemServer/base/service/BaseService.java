@@ -3,7 +3,9 @@ package com.example.assetManagementSystemServer.base.service;
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.base.query.ListParam;
+import com.example.assetManagementSystemServer.entity.asset.AssetFile;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -56,7 +58,13 @@ public abstract class BaseService<T, ID> {
                 baseSpec.and(extraSpec) : baseSpec;
 
         // 执行查询
-        Page<T> pageResult = getRepository().findAll(finalSpec, pageable);
+        Page<T> pageResult = getRepository().findAll((root, query, cb) -> {
+            // 动态加载关联实体（适用于所有实体）
+            if (query != null && query.getResultType() == AssetFile.class) {
+                root.fetch("asset", JoinType.INNER);
+            }
+            return finalSpec.toPredicate(root, query, cb);
+        }, pageable);
 
         // 返回标准化结果
         return buildResult(pageResult, param.isCount());

@@ -1,4 +1,4 @@
-package com.example.assetManagementSystemServer.dto;
+package com.example.assetManagementSystemServer.base;
 
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import lombok.AllArgsConstructor;

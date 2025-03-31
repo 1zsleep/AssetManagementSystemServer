@@ -3,7 +3,7 @@ package com.example.assetManagementSystemServer.controller.user;
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
 
-import com.example.assetManagementSystemServer.dto.BaseResponse;
+import com.example.assetManagementSystemServer.base.BaseResponse;
 
 import com.example.assetManagementSystemServer.dto.BatchUpdateStatusDTO;
 import com.example.assetManagementSystemServer.entity.user.User;

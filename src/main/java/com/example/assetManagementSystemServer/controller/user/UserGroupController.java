@@ -2,7 +2,7 @@ package com.example.assetManagementSystemServer.controller.user;
 
 import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
-import com.example.assetManagementSystemServer.dto.BaseResponse;
+import com.example.assetManagementSystemServer.base.BaseResponse;
 import com.example.assetManagementSystemServer.entity.user.UserGroup;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
@@ -42,11 +44,9 @@ public class UserGroupController {
 
     // 分页查询所有组
     @GetMapping
-    public BaseResponse<Items<UserGroup>> listGroups(
+    public Items<UserGroup> listGroups(
             @Valid ListParam param) {
-        return BaseResponse.success(
-                groupService.list(param)
-        );
+        return groupService.list(param);
     }
 
     // 查询用户创建的组
@@ -82,4 +82,11 @@ public class UserGroupController {
         );
         return ResponseEntity.ok(updatedGroup);
     }
+
+    // 获取用户所属群组列表
+    @GetMapping("/user/{userId}")
+    public List<Long> getUserGroups(@PathVariable Long userId) {
+        return groupService.getUserGroups(userId);
+    }
+
 }

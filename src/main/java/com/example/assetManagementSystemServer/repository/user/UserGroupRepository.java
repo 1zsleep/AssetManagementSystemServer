@@ -45,4 +45,5 @@ public interface UserGroupRepository extends BaseRepository<UserGroup, Long> {
     @Modifying
     @Query("UPDATE UserGroup SET memberCount = memberCount + :delta WHERE id = :groupId")
     void changeMemberCount(@Param("groupId") Long groupId, @Param("delta") int delta);
+
 }
