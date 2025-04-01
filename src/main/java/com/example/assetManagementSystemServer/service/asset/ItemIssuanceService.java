@@ -3,10 +3,14 @@ package com.example.assetManagementSystemServer.service.asset;
 import com.example.assetManagementSystemServer.base.service.BaseService;
 import com.example.assetManagementSystemServer.entity.asset.Item;
 import com.example.assetManagementSystemServer.entity.asset.ItemIssuance;
+import com.example.assetManagementSystemServer.entity.asset.UserAsset;
+import com.example.assetManagementSystemServer.enums.AssetStatus;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
 import com.example.assetManagementSystemServer.repository.asset.ItemIssuanceRepository;
 import com.example.assetManagementSystemServer.repository.asset.ItemRepository;
+import com.example.assetManagementSystemServer.repository.asset.UserAssetRepository;
+import com.example.assetManagementSystemServer.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,8 @@ public class ItemIssuanceService extends BaseService<ItemIssuance, Long> {
 
     private final ItemIssuanceRepository issuanceRepo;
     private final ItemRepository itemRepo;
-
+    private final UserService userService;
+    private final UserAssetRepository userAssetRepository;
     @Override
     protected ItemIssuanceRepository getRepository() {
         return issuanceRepo;
@@ -27,16 +32,16 @@ public class ItemIssuanceService extends BaseService<ItemIssuance, Long> {
 
     @Transactional
     public ItemIssuance issueItem(ItemIssuance itemIssuance) {
-        // 1. 获取物品
+        // 1. 获取物品 与 当前用户
         Item item = itemRepo.findById(itemIssuance.getItemId()).orElseThrow(() -> new BusinessException(ResponseStatusEnum.ITEM_NOT_FOUND));
-
+        Long currentUserId = userService.getCurrentUserId();
 
         // 2. 校验库存
-        if (item.getCurrentStock() != null) {
-            if (item.getCurrentStock() < itemIssuance.getQuantity()) {
+
+            if (item.getCurrentStock() == null || item.getCurrentStock() < itemIssuance.getQuantity()) {
                 throw new BusinessException(ResponseStatusEnum.INSUFFICIENT_INVENTORY);
             }
-        }
+
 
         // 3. 计算年度已领用量
         int currentYear = Year.now().getValue();

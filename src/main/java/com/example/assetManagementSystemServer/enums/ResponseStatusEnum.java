@@ -75,6 +75,7 @@ public enum ResponseStatusEnum {
     ITEM_GROUP_NOT_IN_GROUP(4010010, "物品组不在该组中", HttpStatus.BAD_REQUEST),
     INSUFFICIENT_INVENTORY(4010011,"库存不足",HttpStatus.BAD_REQUEST),
     EXCEED_THE_ANNUAL_LIMIT_FOR_RECEIPT(4010012,"超出年度领用上限",HttpStatus.BAD_REQUEST),
+
     ;
 
     private final int code;       // 业务状态码

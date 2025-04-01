@@ -8,6 +8,8 @@ import com.example.assetManagementSystemServer.entity.user.User;
 import com.example.assetManagementSystemServer.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -100,10 +102,20 @@ public class UserService extends BaseService<User, Long>{
         }
         return userRepository.updateStatusBatch(status, ids);
     }
+    public Long getCurrentUserId() {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 从Principal中提取用户名
+        String username = authentication.getName();
+
+        // 通过用户名查询用户服务获取ID
+        return getUserByUserName(username).getId();
+    }
 
     @Override
     protected BaseRepository<User, Long> getRepository() {
         return userRepository;
     }
+
 }
