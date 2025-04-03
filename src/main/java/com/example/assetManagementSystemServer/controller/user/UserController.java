@@ -6,13 +6,18 @@ import com.example.assetManagementSystemServer.base.query.ListParam;
 import com.example.assetManagementSystemServer.base.BaseResponse;
 
 import com.example.assetManagementSystemServer.dto.BatchUpdateStatusDTO;
+import com.example.assetManagementSystemServer.entity.asset.AssetFile;
 import com.example.assetManagementSystemServer.entity.user.User;
+import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
+import com.example.assetManagementSystemServer.enums.Visibility;
+import com.example.assetManagementSystemServer.service.asset.AssetFileService;
 import com.example.assetManagementSystemServer.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,10 +28,9 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
+    private final AssetFileService assetFileService;
     @GetMapping("/list")
     public Items<User> getUsers(ListParam listParam) {
-
         return userService.list(listParam);
     }
 
@@ -77,4 +81,22 @@ public class UserController {
         return ResponseEntity.ok(BaseResponse.success(registeredUser));
     }
 
+    /**
+     * 更改头像
+     */
+    @PostMapping("/avatar")
+    public BaseResponse<ResponseStatusEnum> updateAvatar(
+            @RequestParam("file") MultipartFile file
+    ) {
+        userService.uploadAvatar(file);
+        return BaseResponse.success(ResponseStatusEnum.SUCCESS);
+    }
+
+    /**
+     * 获得头像地址
+     */
+    @GetMapping("/avatar")
+    public String getAvatar() {
+        return userService.getAvatarUrl();
+    }
 }

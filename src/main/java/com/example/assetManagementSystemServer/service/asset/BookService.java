@@ -27,6 +27,10 @@ public class BookService extends BaseService<Book, Long> {
     public Book getBookById(Long id){
         return bookRepository.findFirstByBookId(id);
     }
+    public Book getBookByTitle(String title){
+        return bookRepository.findFirstByTitle(title);
+    }
+
     @Transactional
     public void issueBook(Long id){
         Long currentUserId = userService.getCurrentUserId();
@@ -48,4 +52,6 @@ public class BookService extends BaseService<Book, Long> {
         userAsset.setStatus("申请中");
         userAssetService.saveUserAsset(userAsset);
     }
+
+
 }

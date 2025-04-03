@@ -46,4 +46,10 @@ public class EquipmentService extends BaseService<Equipment, Long> {
     public Equipment getEquipmentById(Long assetId) {
         return equipmentRepository.findByEquipmentId(assetId);
     }
+    public Equipment getEquipmentByName(String name) {
+        return equipmentRepository.findFirstByName(name);
+    }
+    public Equipment getEquipmentBySerialNumber(String serialNumber) {
+        return equipmentRepository.findFirstBySerialNumber(serialNumber);
+    }
 }

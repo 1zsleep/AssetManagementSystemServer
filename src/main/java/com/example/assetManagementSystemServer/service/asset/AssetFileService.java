@@ -113,13 +113,16 @@ public class AssetFileService extends BaseService<AssetFile, Long> {
         }
 
         String processParams = null;
-        if (isImage(file.getFileType())) {
-            processParams = "imageMogr2/thumbnail/!200x200/format/webp";
-        }
 
+        String key;
+        if (file.getBucketType()== BucketType.GROUPS){
+            key=file.getCosKey();
+        }else {
+            key=file.getCosKey().substring(file.getCosKey().lastIndexOf(".com")+5);
+        }
         return cosService.generateDynamicUrl(
                 file.getBucketType(),
-                file.getCosKey(),
+                key,
                 processParams,
                 120
         );

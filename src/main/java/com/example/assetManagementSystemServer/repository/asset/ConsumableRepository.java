@@ -7,4 +7,6 @@ public interface ConsumableRepository extends BaseRepository<Consumable, Long> {
     Consumable findByConsumableId(Long id);
 
     Consumable findFirstByConsumableId(Long assetId);
+
+    Consumable findFirstByName(String name);
 }

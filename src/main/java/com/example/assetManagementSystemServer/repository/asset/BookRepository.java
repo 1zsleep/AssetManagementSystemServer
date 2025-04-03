@@ -10,4 +10,5 @@ public interface BookRepository extends BaseRepository<Book, Long> {
 
     Book findFirstByBookId(Long bookId);
 
+    Book findFirstByTitle(String title);
 }

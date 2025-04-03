@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,6 +24,7 @@ public class UserAssetService extends BaseService<UserAsset, Long> {
     private final BookRepository bookRepository;
     private final EquipmentRepository equipmentRepository;
     private final ConsumableRepository consumableRepository;
+
     @Override
     protected BaseRepository<UserAsset, Long> getRepository() {
         return userAssetRepository;
@@ -36,7 +37,7 @@ public class UserAssetService extends BaseService<UserAsset, Long> {
 
         if ("申请中".equals(userAsset.getStatus())) {
             userAsset.setStatus("已归还");
-            userAsset.setReturnedDate(LocalDate.now());
+            userAsset.setReturnedDate(LocalDateTime.now());
             userAssetRepository.save(userAsset);
             return;
         }
@@ -66,26 +67,50 @@ public class UserAssetService extends BaseService<UserAsset, Long> {
         }
 
         userAsset.setStatus("已归还");
-        userAsset.setReturnedDate(LocalDate.now());
+        userAsset.setReturnedDate(LocalDateTime.now());
         userAssetRepository.save(userAsset);
     }
 
-    public List<UserAsset> findByUserIdAndAssetIdAndAssetType(Long userId, Long assetId, String assetType){
-        return userAssetRepository.findByUserIdAndAssetIdAndAssetType(userId,assetId,assetType);
+    public List<UserAsset> findByUserIdAndAssetIdAndAssetType(Long userId, Long assetId, String assetType) {
+        return userAssetRepository.findByUserIdAndAssetIdAndAssetType(userId, assetId, assetType);
     }
+
     @Transactional
-    public void saveUserAsset(UserAsset userAsset){
+    public void saveUserAsset(UserAsset userAsset) {
         userAssetRepository.save(userAsset);
     }
 
     //通过审批
     @Transactional
     public void Approval(Long id) {
-        userAssetRepository.findFirstById(id).setStatus("使用中");
+
+        UserAsset userAsset = userAssetRepository.findFirstById(id);
+        userAsset.setStatus("使用中");
+        switch (userAsset.getAssetType()) {
+            case "Book":
+                Book book = bookRepository.findFirstByBookId(userAsset.getAssetId());
+                book.setStockQuantity(book.getStockQuantity() - userAsset.getQuantity());
+                bookRepository.save(book);
+                break;
+            case "Equipment":
+                Equipment equipment = equipmentRepository.findFirstByEquipmentId(userAsset.getAssetId());
+                equipment.setStatus("使用中");
+                equipmentRepository.save(equipment);
+                break;
+            case "Consumable":
+                Consumable consumable = consumableRepository.findFirstByConsumableId(userAsset.getAssetId());
+                consumable.setStockQuantity(consumable.getStockQuantity() - userAsset.getQuantity());
+                consumableRepository.save(consumable);
+                break;
+        }
+        userAssetRepository.save(userAsset);
     }
+
     //不通过审批
     @Transactional
-    public void FailureToApprove(Long id){
-        userAssetRepository.findFirstById(id).setStatus("申请失败");
+    public void FailureToApprove(Long id) {
+        UserAsset userAsset = userAssetRepository.findFirstById(id);
+        userAsset.setStatus("申请失败");
+        userAssetRepository.save(userAsset);
     }
 }

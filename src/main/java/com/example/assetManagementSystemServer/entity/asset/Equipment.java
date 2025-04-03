@@ -4,6 +4,7 @@ import com.example.assetManagementSystemServer.enums.EquipmentStatusEnum;
 import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -39,7 +40,14 @@ public class Equipment {
      * 购买日期
      */
     @Column(name = "purchase_date")
+    @CreationTimestamp
     private LocalDate purchaseDate;
+
+    /**
+     * 采购单号
+     */
+    @Column(name = "purchase_id")
+    private Long purchaseId;
 
     /**
      * 设备状态（正常、使用中、报废）

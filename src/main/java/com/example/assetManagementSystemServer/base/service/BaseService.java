@@ -6,10 +6,16 @@ import com.example.assetManagementSystemServer.base.query.ListParam;
 import com.example.assetManagementSystemServer.entity.asset.AssetFile;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.beans.PropertyDescriptor;
 
 
 /**
@@ -106,5 +112,33 @@ public abstract class BaseService<T, ID> {
         );
     }
 
+    @Transactional
+    public T update(ID id, T updatedEntity) {
+        T existing = getRepository().findById(id)
+                .orElseThrow(() -> new RuntimeException("ID不存在: " + id));
 
+        // 复制非空属性
+        BeanWrapper src = new BeanWrapperImpl(updatedEntity);
+        BeanWrapper trg = new BeanWrapperImpl(existing);
+
+        // 遍历所有属性
+        for (PropertyDescriptor pd : src.getPropertyDescriptors()) {
+            String field = pd.getName();
+            // 跳过ID和不可写字段
+            if ("id".equals(field) || !trg.isWritableProperty(field)) continue;
+
+            // 仅复制非空值
+            Object value = src.getPropertyValue(field);
+            if (value != null) {
+                trg.setPropertyValue(field, value);
+            }
+        }
+
+        return getRepository().save(existing);
+    }
+
+    @Transactional
+    public T save(T entity) {
+        return getRepository().save(entity);
+    }
 }

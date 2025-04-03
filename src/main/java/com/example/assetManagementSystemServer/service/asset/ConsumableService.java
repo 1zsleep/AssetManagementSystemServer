@@ -44,4 +44,7 @@ public class ConsumableService extends BaseService<Consumable, Long> {
     public Consumable getConsumableById(Long assetId) {
         return consumableRepository.findByConsumableId(assetId);
     }
+    public Consumable getByName(String Name) {
+        return consumableRepository.findFirstByName(Name);
+    }
 }

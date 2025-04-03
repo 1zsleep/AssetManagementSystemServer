@@ -67,17 +67,15 @@ public class AssetFileController {
      * @apiNote 上传者身份通过安全上下文自动获取，文件存储路径根据可见性规则自动分配
      */
     @PostMapping("/upload")
-    @ResponseStatus(HttpStatus.CREATED)
-    public BaseResponse<AssetFile> uploadFile(
+    public BaseResponse<ResponseStatusEnum> uploadFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam Visibility visibility,
             @RequestParam(required = false) Long ownerUserId,
             @RequestParam(required = false) Long ownerGroupId) {
         try {
             Long currentUserId = getCurrentUserId();
-            AssetFile result = assetFileService.uploadFile(
-                    file, visibility, ownerUserId, ownerGroupId, currentUserId);
-            return BaseResponse.success(result);
+            assetFileService.uploadFile(file, visibility, ownerUserId, ownerGroupId, currentUserId);
+            return BaseResponse.success(ResponseStatusEnum.SUCCESS);
         } catch (BusinessException e) {
             return BaseResponse.fail(e.getStatus(), e.getMessage());
         }

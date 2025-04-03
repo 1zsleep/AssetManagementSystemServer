@@ -2,6 +2,7 @@ package com.example.assetManagementSystemServer.entity.asset;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,6 +51,7 @@ public class Book {
      * 购买日期
      */
     @Column(name = "purchase_date")
+    @CreationTimestamp
     private LocalDateTime purchaseDate;
 
     /**

@@ -2,17 +2,21 @@ package com.example.assetManagementSystemServer.service.user;
 
 import com.example.assetManagementSystemServer.base.repository.BaseRepository;
 import com.example.assetManagementSystemServer.base.service.BaseService;
+import com.example.assetManagementSystemServer.enums.BucketType;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.exception.BusinessException;
 import com.example.assetManagementSystemServer.entity.user.User;
 import com.example.assetManagementSystemServer.repository.user.UserRepository;
+import com.example.assetManagementSystemServer.service.storage.CosService;
+import com.qcloud.cos.model.ResponseHeaderOverrides;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.sql.Date;
@@ -29,6 +33,7 @@ public class UserService extends BaseService<User, Long>{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CosService cosService;
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
@@ -65,10 +70,10 @@ public class UserService extends BaseService<User, Long>{
         userRepository.findById(userId)
                 .map(user -> {
                     // 更新需要修改的字段
-                    if (updatedUser.getUserName() != null) {
+                    if (StringUtils.isNotBlank(updatedUser.getUserName())) {
                         user.setUserName(updatedUser.getUserName());
                     }
-                    if (updatedUser.getUserPassword() != null) {
+                    if (StringUtils.isNotBlank(updatedUser.getUserPassword())) {
                         user.setUserPassword(passwordEncoder.encode(updatedUser.getUserPassword()));
                     }
                     if (updatedUser.getRole() != null) {
@@ -118,4 +123,29 @@ public class UserService extends BaseService<User, Long>{
         return userRepository;
     }
 
+    //上传头像
+    @Transactional
+    public void uploadAvatar(MultipartFile file) {
+        Long currentUserId = getCurrentUserId();
+        String url = cosService.uploadFile(BucketType.PUBLIC, "avatar", file, currentUserId);
+        User user = getUserById(currentUserId);
+        user.setAvatarCosKey(extractCosKey(url));
+        userRepository.save(user);
+    }
+
+    //头像地址
+    public String getAvatarUrl() {
+        Long currentUserId = getCurrentUserId();
+        User user = getUserById(currentUserId);
+        if (user.getAvatarCosKey() != null){
+            return cosService.generateDynamicUrl(BucketType.PUBLIC, user.getAvatarCosKey().substring(user.getAvatarCosKey().lastIndexOf(".com")+5), null, 120);
+        }
+        return "";
+    }
+
+    private String extractCosKey(String cosUrl) {
+        // 正确提取完整路径（如 groups/documents/2/20250330/filename.jpg）
+        String prefix = cosService.getBucketDomain(); // 获取存储桶域名部分
+        return cosUrl.replace(prefix, ""); // 移除域名保留完整路径
+    }
 }
