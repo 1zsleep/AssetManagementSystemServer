@@ -40,6 +40,19 @@ public class AssetFileService extends BaseService<AssetFile, Long> {
     private final AssetRepository assetRepository;
     private final CosService cosService;
 
+    @Transactional(readOnly = true)
+    public Long countByPublic(){
+        return assetFileRepository.countAllByBucketType(BucketType.PUBLIC);
+    }
+    @Transactional(readOnly = true)
+    public Long countByGroups(){
+        return assetFileRepository.countAllByBucketType(BucketType.GROUPS);
+    }
+    @Transactional(readOnly = true)
+    public Long countByPrivate(){
+        return assetFileRepository.countAllByBucketType(BucketType.PRIVATE);
+    }
+
     // 文件签名白名单
     private static final Map<String, String[]> FILE_SIGNATURES = Map.of(
             "image/png", new String[]{"89504E47"},
@@ -128,6 +141,7 @@ public class AssetFileService extends BaseService<AssetFile, Long> {
         );
     }
 
+    @Transactional
     public String getThumbnailUrl(Long fileId, Long currentUser) {
         AssetFile file = getFileEntity(fileId);
         checkAccessPermission(file, currentUser);
@@ -144,16 +158,23 @@ public class AssetFileService extends BaseService<AssetFile, Long> {
         );
     }
 
+    @Transactional
     public String generateDownloadUrl(Long fileId, Long currentUser) {
         AssetFile file = getFileEntity(fileId);
         checkAccessPermission(file, currentUser);
 
         ResponseHeaderOverrides headers = new ResponseHeaderOverrides();
         headers.setContentDisposition("attachment; filename=\"" + file.getFileName() + "\"");
-
+        System.out.println(file.getFileName());
+        String key;
+        if (file.getBucketType()== BucketType.GROUPS){
+            key=file.getCosKey();
+        }else {
+            key=file.getCosKey().substring(file.getCosKey().lastIndexOf(".com")+5);
+        }
         return cosService.generateDownloadUrl(
                 file.getBucketType(),
-                file.getCosKey(),
+               key,
                 30,
                 headers
         );

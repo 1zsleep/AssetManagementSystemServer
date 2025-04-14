@@ -45,10 +45,15 @@ public class Consumable {
     private Integer stockQuantity;
 
     /**
-     * 计量单位（如个、箱、包）
+    * 计量单位（如个、箱、包）
      */
     @Column(name = "unit")
     private String unit;
 
+    /**
+     * 消耗统计
+     */
+    @Column(name = "consumption_statistics")
+    private Long consumptionStatistics;
 
 }

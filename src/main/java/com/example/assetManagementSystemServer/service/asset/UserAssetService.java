@@ -100,6 +100,7 @@ public class UserAssetService extends BaseService<UserAsset, Long> {
             case "Consumable":
                 Consumable consumable = consumableRepository.findFirstByConsumableId(userAsset.getAssetId());
                 consumable.setStockQuantity(consumable.getStockQuantity() - userAsset.getQuantity());
+                consumable.setConsumptionStatistics(consumable.getConsumptionStatistics() + userAsset.getQuantity());
                 consumableRepository.save(consumable);
                 break;
         }
@@ -113,4 +114,6 @@ public class UserAssetService extends BaseService<UserAsset, Long> {
         userAsset.setStatus("申请失败");
         userAssetRepository.save(userAsset);
     }
+
+
 }

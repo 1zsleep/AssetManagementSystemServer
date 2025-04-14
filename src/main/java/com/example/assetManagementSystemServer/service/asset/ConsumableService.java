@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ConsumableService extends BaseService<Consumable, Long> {
@@ -46,5 +48,9 @@ public class ConsumableService extends BaseService<Consumable, Long> {
     }
     public Consumable getByName(String Name) {
         return consumableRepository.findFirstByName(Name);
+    }
+
+    public List<Consumable> getTop10Consumables() {
+        return consumableRepository.findTop10ByOrderByConsumptionStatisticsDesc();
     }
 }

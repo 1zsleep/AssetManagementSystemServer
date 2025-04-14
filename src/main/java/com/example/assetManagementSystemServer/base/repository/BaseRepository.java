@@ -67,6 +67,10 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
             long numValue = Long.parseLong(value);
             return buildNumericPredicate(cb, (Path<Long>) fieldPath, operator, numValue);
         }
+        if (fieldPath.getJavaType() == Boolean.class) {
+            Boolean boolValue = Boolean.parseBoolean(value);
+            return buildBooleanPredicate(cb, (Path<Boolean>) fieldPath, operator, boolValue);
+        }
         // 默认按字符串处理
         return buildStringPredicate(cb, (Path<String>) fieldPath, operator, value);
     }
@@ -100,7 +104,17 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
             default -> throw new IllegalArgumentException("Unsupported operator: " + operator);
         };
     }
-
+    /**
+     * 构建布尔类型条件构建方法
+     */
+    private Predicate buildBooleanPredicate(CriteriaBuilder cb, Path<Boolean> fieldPath,
+                                            String operator, Boolean value) {
+        return switch (operator) {
+            case "=" -> cb.equal(fieldPath, value);
+            case "!=" -> cb.notEqual(fieldPath, value);
+            default -> throw new IllegalArgumentException("Unsupported boolean operator: " + operator);
+        };
+    }
     /**
      * 将带下划线的字段名转换为实体属性路径
      * @param root 查询根对象

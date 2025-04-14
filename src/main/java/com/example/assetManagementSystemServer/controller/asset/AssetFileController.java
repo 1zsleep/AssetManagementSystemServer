@@ -4,6 +4,7 @@ import com.example.assetManagementSystemServer.base.query.Items;
 import com.example.assetManagementSystemServer.base.query.ListParam;
 import com.example.assetManagementSystemServer.base.BaseResponse;
 import com.example.assetManagementSystemServer.entity.asset.AssetFile;
+import com.example.assetManagementSystemServer.enums.BucketType;
 import com.example.assetManagementSystemServer.enums.ResponseStatusEnum;
 import com.example.assetManagementSystemServer.enums.Visibility;
 import com.example.assetManagementSystemServer.exception.BusinessException;
@@ -155,6 +156,15 @@ public class AssetFileController {
         } catch (BusinessException e) {
             return BaseResponse.fail(e.getStatus(), e.getMessage());
         }
+    }
+
+    @GetMapping("count")
+    public Long countByBucketType(BucketType bucketType) {
+        return switch (bucketType) {
+            case PUBLIC -> assetFileService.countByPublic();
+            case PRIVATE -> assetFileService.countByPrivate();
+            case GROUPS -> assetFileService.countByGroups();
+        };
     }
 
     /**

@@ -30,6 +30,7 @@ public class SupplierService extends BaseService<Supplier, Long> {
     }
 
     public void createSupplier(Supplier supplier) {
+        supplier.setStatus("待审核");
         supplierRepository.save(supplier);
     }
 

@@ -2,6 +2,7 @@ package com.example.assetManagementSystemServer.service.purchase;
 
 
 import com.example.assetManagementSystemServer.base.service.BaseService;
+import com.example.assetManagementSystemServer.dto.MonthlyTotalPrice;
 import com.example.assetManagementSystemServer.entity.asset.Book;
 import com.example.assetManagementSystemServer.entity.asset.Consumable;
 import com.example.assetManagementSystemServer.entity.asset.Equipment;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -100,5 +102,17 @@ public class PurchaseOrderService extends BaseService<PurchaseOrder, Long> {
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findFirstById(id);
         purchaseOrder.setStatus("审核失败");
         purchaseOrderRepository.save(purchaseOrder);
+    }
+
+    public List<MonthlyTotalPrice> getMonthlyArchivedTotalPrice() {
+        List<MonthlyTotalPrice> rawData = purchaseOrderRepository.findMonthlyTotalPriceByArchivedStatus();
+
+        // 可选：对数据进行格式化处理
+        rawData.forEach(item -> {
+            // 保留两位小数
+            item.setTotalPrice(Math.round(item.getTotalPrice() * 100.0) / 100.0);
+        });
+
+        return rawData;
     }
 }

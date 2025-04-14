@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/consumable")
 @RequiredArgsConstructor
@@ -23,6 +25,15 @@ public class ConsumableController {
     public void issueConsumable(@RequestBody Dto dto) {
 
         consumableService.issueConsumable(dto.getId(), dto.getQuantity());
+    }
+
+    /**
+     * 获取前10条消费类资产
+     * @return
+     */
+    @GetMapping("/top10")
+    public List<Consumable> getTop10Consumables() {
+        return consumableService.getTop10Consumables();
     }
 
     @Data

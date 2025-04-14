@@ -9,4 +9,6 @@ public interface UserAssetRepository extends BaseRepository<UserAsset, Long> {
      List<UserAsset> findByUserIdAndAssetIdAndAssetType(Long userId, Long assetId, String assetType);
 
      UserAsset findFirstById(Long id);
+
+
 }
