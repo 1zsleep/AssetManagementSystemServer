@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Data
 @Entity
-@ToString(exclude = "files")
+@ToString()
 @Table(name = "asset")
 public class Asset {
     @Id

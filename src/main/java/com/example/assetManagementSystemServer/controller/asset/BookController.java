@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping({"/book","/test/books"})
 @AllArgsConstructor
 public class BookController {
     private final BookService bookService;
